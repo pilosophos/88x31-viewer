@@ -1,5 +1,6 @@
 body {
     margin: 8px;
+    background: #55aaaa;
 }
 
 #buttons {
@@ -25,4 +26,15 @@ body {
     padding-bottom: 8px;
     display: flex;
     justify-content: center;
+}
+
+.status-bar .status-bar-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.title-bar-text {
+    display: flex;
+    align-items: center;
 }
