@@ -77,7 +77,13 @@ class ButtonViewer {
 
   showButtons() {
     const page = this.paginator.next();
-    const remaining = page.value.remaining;
+    const remaining = page.value?.remaining;
+
+    if (remaining === undefined) {
+      this.shown.textContent = 0;
+      return;
+    }
+
     for (let filename of page.value.page) {
       this.buttons.append(this.makeButton(filename));
     }
