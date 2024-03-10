@@ -1,3 +1,20 @@
+function getRandom(length) { return Math.floor(Math.random()*(length)); }
+
+function getRandomSample(array, size) {
+  var length = array.length, start = getRandom(length);
+
+  for(var i = size; i--;) {
+      var index = (start + i)%length, rindex = getRandom(length);
+      var temp = array[rindex];
+      array[rindex] = array[index];
+      array[index] = temp;
+  }
+  var end = start + size, sample = array.slice(start, end);
+  if(end > length)
+      sample = sample.concat(array.slice(0, end - length));
+  return sample;
+}
+
 function * getPage(list, pageSize = 50) {
   for (let index = 0; index < list.length; index += pageSize) {
     yield {
@@ -13,6 +30,10 @@ class ButtonViewer {
     this.buttons = document.getElementById("buttons");
     this.search = document.getElementById("search");
     this.buttonTemplate = document.getElementById("button-template");
+
+    this.random = document.getElementById("random");
+    this.random.addEventListener("click", e => this.showRandom());
+
     this.paginator = null;
 
     fetch("indices/hellnet.work.txt")
@@ -27,8 +48,8 @@ class ButtonViewer {
           found.push(filename);
         }
       }
-  
-      this.paginator = getPage(found, 50);
+
+      this.paginator = getPage(found);
       this.buttons.innerHTML = "";
       this.showButtons();
     });
@@ -36,6 +57,7 @@ class ButtonViewer {
 
   setIndex(index) {
     this.index = index.split("\n");
+    this.showRandom();
   }
 
   getIndex() {
@@ -57,6 +79,14 @@ class ButtonViewer {
       });
       next.textContent = `Load ${Math.min(50, remaining)} more`;
       this.buttons.append(next);
+    }
+  }
+
+  showRandom() {
+    this.buttons.innerHTML = "";
+    const sample = getRandomSample(this.index, 50);
+    for (let filename of sample) {
+      this.buttons.append(this.makeButton(filename));
     }
   }
 
