@@ -1,9 +1,19 @@
+function * getPage(list, pageSize = 50) {
+  for (let index = 0; index < list.length; index += pageSize) {
+    yield {
+      page: list.slice(index, index + pageSize),
+      remaining: Math.max(0, list.length - (index + pageSize))
+    };
+  }
+}
+
 class ButtonViewer {
   constructor() {
     this.index = [];
     this.buttons = document.getElementById("buttons");
     this.search = document.getElementById("search");
     this.buttonTemplate = document.getElementById("button-template");
+    this.paginator = null;
 
     fetch("indices/hellnet.work.txt")
       .then(res => res.text())
@@ -18,7 +28,9 @@ class ButtonViewer {
         }
       }
   
-      this.showButtons(found);
+      this.paginator = getPage(found, 50);
+      this.buttons.innerHTML = "";
+      this.showButtons();
     });
   }
 
@@ -30,23 +42,35 @@ class ButtonViewer {
     return this.index;
   }
 
-  showButtons(filenames) {
-    this.buttons.innerHTML = "";
-
-    const showAmount = Math.min(filenames.length, 50);
-    for (let i = 0; i < showAmount; i++) {
-      const filename = filenames[i];
-      const newButton = this.buttonTemplate.content.cloneNode(true);
-
-      const img = newButton.querySelector(".img-88x31");
-      img.src = "buttons/hellnet.work/" + filename;
-      img.setAttribute("alt", filename);
-
-      const filenameDisplay = newButton.querySelector(".filename-88x31");
-      filenameDisplay.textContent = filename;
-
-      this.buttons.append(newButton);
+  showButtons() {
+    const page = this.paginator.next();
+    const remaining = page.value.remaining;
+    for (let filename of page.value.page) {
+      this.buttons.append(this.makeButton(filename));
     }
+
+    if (remaining > 0) {
+      const next = document.createElement("button");
+      next.addEventListener("click", e => {
+        this.showButtons();
+        e.target.style.display = "none";
+      });
+      next.textContent = `Load ${Math.min(50, remaining)} more`;
+      this.buttons.append(next);
+    }
+  }
+
+  makeButton(filename) {
+    const newButton = this.buttonTemplate.content.cloneNode(true);
+
+    const img = newButton.querySelector(".img-88x31");
+    img.src = "buttons/hellnet.work/" + filename;
+    img.setAttribute("alt", filename);
+
+    const filenameDisplay = newButton.querySelector(".filename-88x31");
+    filenameDisplay.textContent = filename;
+
+    return newButton;
   }
 }
 
