@@ -4,24 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>88x31 Button Viewer</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/98.css"
+  >
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <div class="search-panel">
-    <label>
-      Search
-      <input type="text" id="search" />
-    </label>
-    <button id="random">random 50</button>
+  <div class="window">
+    <div class="title-bar">
+      <div class="title-bar-text">88x31 Button Viewer</div>
+    </div>
+
+    <div class="window-body">
+      <div class="search-panel">
+        <div>
+          <label>
+            Search
+            <input type="text" id="search" />
+          </label>
+          <button id="random">random 50</button>
+        </div>
+      </div>
+      <ul id="buttons" class="tree-view">
+        <noscript>JavaScript is required because otherwise you'd be loading a few hundred megabytes of 88x31 buttons at the same time.</noscript>
+      </ul>
+
+    </div>
+
+    <div class="status-bar">
+      <p class="status-bar-field">88x31 Button Viewer by <a href="https://tilde.town/~pilosophos/">Pilosophos</a></p>
+      <p class="status-bar-field">Buttons scraped from <a href="https://wiki.archiveteam.org/index.php/GeoCities">ArchiveTeam</a>'s Geocities Archive by <a href="https://hellnet.work/8831/">hellnet</a></p>
+    </div>
   </div>
 
-  <div id="buttons"></div>
-
   <template id="button-template">
-    <div class="container-88x11">
+    <li class="container-88x11">
       <img src="" alt="" class="img-88x31">
       <span class="filename-88x31"></span>
-    </div>
+    </li>
   </template>
   <script src="main.js"></script>
 </body>
