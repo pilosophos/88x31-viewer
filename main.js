@@ -48,7 +48,7 @@ class ButtonViewer {
     if (searchTerm.length > 0) {
       const found = [];
       for (let filename of this.getIndex()) {
-        if (filename.includes(searchTerm)) {
+        if (filename.toLowerCase().includes(searchTerm.toLowerCase())) {
           found.push(filename);
         }
       }
