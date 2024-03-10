@@ -40,8 +40,12 @@ class ButtonViewer {
       .then(res => res.text())
       .then(text => this.setIndex(text));
 
-    this.search.addEventListener("input", (e) => {
-      const searchTerm = e.target.value;
+    this.search.addEventListener("input", (e) => this.onSearchTermChanged(e));
+  }
+
+  onSearchTermChanged(event) {
+    const searchTerm = event.target.value;
+    if (searchTerm.length > 0) {
       const found = [];
       for (let filename of this.getIndex()) {
         if (filename.includes(searchTerm)) {
@@ -52,7 +56,9 @@ class ButtonViewer {
       this.paginator = getPage(found);
       this.buttons.innerHTML = "";
       this.showButtons();
-    });
+    } else {
+      this.showRandom();
+    }
   }
 
   setIndex(index) {
