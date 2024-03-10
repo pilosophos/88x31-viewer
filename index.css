@@ -23,7 +23,6 @@ body {
 }
 
 .search-panel {
-    padding-bottom: 8px;
     display: flex;
     justify-content: center;
 }
@@ -32,6 +31,10 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.text-center {
+    text-align: center;
 }
 
 .title-bar-text {

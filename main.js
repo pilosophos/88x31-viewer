@@ -15,7 +15,7 @@ function getRandomSample(array, size) {
   return sample;
 }
 
-function * getPage(list, pageSize = 50) {
+function * getPage(list, pageSize = 100) {
   for (let index = 0; index < list.length; index += pageSize) {
     yield {
       page: list.slice(index, index + pageSize),
@@ -30,6 +30,9 @@ class ButtonViewer {
     this.buttons = document.getElementById("buttons");
     this.search = document.getElementById("search");
     this.buttonTemplate = document.getElementById("button-template");
+
+    this.shown = document.getElementById("shown");
+    this.count = document.getElementById("count");
 
     this.random = document.getElementById("random");
     this.random.addEventListener("click", e => this.showRandom());
@@ -53,6 +56,7 @@ class ButtonViewer {
         }
       }
 
+      this.count.textContent = found.length;
       this.paginator = getPage(found);
       this.buttons.innerHTML = "";
       this.showButtons();
@@ -63,6 +67,7 @@ class ButtonViewer {
 
   setIndex(index) {
     this.index = index.split("\n");
+    this.count.textContent = index.length;
     this.showRandom();
   }
 
@@ -76,6 +81,7 @@ class ButtonViewer {
     for (let filename of page.value.page) {
       this.buttons.append(this.makeButton(filename));
     }
+    this.shown.textContent = this.buttons.querySelectorAll(".img-88x31").length;
 
     if (remaining > 0) {
       const next = document.createElement("button");
@@ -83,17 +89,19 @@ class ButtonViewer {
         this.showButtons();
         e.target.style.display = "none";
       });
-      next.textContent = `Load ${Math.min(50, remaining)} more`;
+      next.textContent = `Load ${Math.min(100, remaining)} more`;
       this.buttons.append(next);
     }
   }
 
   showRandom() {
     this.buttons.innerHTML = "";
-    const sample = getRandomSample(this.index, 50);
+    const sample = getRandomSample(this.index, 100);
     for (let filename of sample) {
       this.buttons.append(this.makeButton(filename));
     }
+    this.shown.textContent = this.buttons.querySelectorAll(".img-88x31").length;
+    this.count.textContent = this.index.length;
   }
 
   makeButton(filename) {
