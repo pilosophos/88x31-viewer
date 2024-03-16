@@ -31,6 +31,9 @@ class ButtonViewer {
     this.search = document.getElementById("search");
     this.buttonTemplate = document.getElementById("button-template");
 
+    this.archive = null;
+    this.archiveSelect = document.getElementById("archive-switch");
+
     this.shown = document.getElementById("shown");
     this.count = document.getElementById("count");
 
@@ -39,15 +42,22 @@ class ButtonViewer {
 
     this.paginator = null;
 
-    fetch("indices/hellnet.work.txt")
-      .then(res => res.text())
-      .then(text => this.setIndex(text));
+    this.onArchiveSelected(this.archiveSelect.querySelector("input:checked").value);
 
-    this.search.addEventListener("input", (e) => this.onSearchTermChanged(e));
+    this.search.addEventListener("input", () => this.onSearchTermChanged(this.search.value));
+    Array.from(this.archiveSelect.querySelectorAll("input")).forEach(radio => {
+      radio.addEventListener("change", (e => this.onArchiveSelected(e.target.value)).bind(this));
+    });
   }
 
-  onSearchTermChanged(event) {
-    const searchTerm = event.target.value;
+  onArchiveSelected(archive) {
+    this.archive = archive;
+    fetch(`indices/${archive}.txt`)
+      .then(res => res.text())
+      .then(text => this.setIndex(text));
+  }
+
+  onSearchTermChanged(searchTerm) {
     if (searchTerm.length > 0) {
       const found = [];
       for (let filename of this.getIndex()) {
@@ -68,7 +78,7 @@ class ButtonViewer {
   setIndex(index) {
     this.index = index.split("\n");
     this.count.textContent = index.length;
-    this.showRandom();
+    this.onSearchTermChanged(this.search.value);
   }
 
   getIndex() {
@@ -114,7 +124,7 @@ class ButtonViewer {
     const newButton = this.buttonTemplate.content.cloneNode(true);
 
     const img = newButton.querySelector(".img-88x31");
-    img.src = "buttons/hellnet.work/" + filename;
+    img.src = `buttons/${this.archive}/${filename}`;
     img.setAttribute("alt", filename);
 
     const filenameDisplay = newButton.querySelector(".filename-88x31");

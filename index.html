@@ -23,10 +23,20 @@
             Search
             <input type="text" id="search" />
           </label>
-          <button id="random">random 100</button>
+          <button id="random">Random 100</button>
         </div>
+        <div id="archive-switch">
+          <div class="field-row">
+            <input id="radio-geocities" type="radio" name="archive-selector" value="hellnet.work" checked>
+            <label for="radio-geocities">GeoCities Archive</label>
+          </div>
+          <div class="field-row">
+            <input id="radio-dabamos" type="radio" name="archive-selector" value="cyber.dabamos.de">
+            <label for="radio-dabamos">cyber.dabamos.de (modern)</label>
+          </div>
+        </div>
+        <p class="text-center">Showing <span id="shown">?</span> of <span id="count">?</span> buttons.</p>
       </div>
-      <p class="text-center">Showing <span id="shown">?</span> of <span id="count">?</span> buttons.</p>
       <ul id="buttons" class="tree-view">
         <noscript>JavaScript is required because otherwise you'd be loading a few hundred megabytes of 88x31 buttons at the same time.</noscript>
       </ul>
@@ -35,7 +45,7 @@
 
     <div class="status-bar">
       <div class="status-bar-field">
-        <p>Buttons scraped from <a href="https://wiki.archiveteam.org/index.php/GeoCities">ArchiveTeam</a>'s Geocities Archive by <a href="https://hellnet.work/8831/">hellnet</a></p>
+        <p>Buttons in <a href="https://wiki.archiveteam.org/index.php/GeoCities">ArchiveTeam</a>'s Geocities Archive scraped by <a href="https://hellnet.work/8831/">hellnet</a>. Other buttons compiled at <a href="https://cyber.dabamos.de/88x31/">cyber.dabamos.de</a>.</p>
       </div>
       <div class="status-bar-field">
         <a href="https://tilde.town/~pilosophos/">

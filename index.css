@@ -1,3 +1,12 @@
+#archive-switch {
+    display: flex;
+    margin: 8px;
+}
+
+#archive-switch >.field-row {
+    margin: 0 4px;
+}
+
 body {
     margin: 8px;
     background: #55aaaa;
@@ -24,7 +33,8 @@ body {
 
 .search-panel {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .status-bar .status-bar-field {
