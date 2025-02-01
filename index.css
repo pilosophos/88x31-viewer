@@ -37,10 +37,15 @@ body {
     flex-direction: column;
 }
 
+.status-bar {
+    margin: 8px;
+}
+
 .status-bar .status-bar-field {
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 4px 8px;
 }
 
 .text-center {
